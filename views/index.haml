@@ -1,0 +1,34 @@
+-# encoding: utf-8
+!!! XML
+!!!
+%html
+  %head
+    %meta{'http-equiv' => 'content-type', :content => 'text/html; charset=utf-8'}
+    %meta{'http-equiv' => 'content-style-type', :content => 'text/css'}
+    %meta{'http-equiv' => 'content-script-type', :content => 'text/javascript'}
+    %title rab2pdf
+  %body
+    %h1 rab2pdf
+
+    Powered by
+    %a{:href => "http://www.ruby-lang.org/ja/"} Ruby
+    ,
+    %a{:href => "http://www.sinatrarb.com/intro-jp.html"} Sinatra
+    ,
+    %a{:href => "http://haml-lang.com/"} Haml
+    ,
+    %a{:href => "http://rabbit-shocker.org/"} Rabbit
+
+    %form{:action => url("/convert", false, true), :method => "post"}
+      %p
+        file-name
+        %input{:type => "text", :name => "filename", :size => 50, :value => @filename}
+      %p
+        source
+        %textarea{:name => "source", :cols => 50, :rows => 5}= @params[:source]
+      %p
+        %input{:type => "submit"}
+    %p
+      download URL
+      %br
+      %input{:type => "text", :size => 50, :value => @download_url}
