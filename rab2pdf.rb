@@ -19,6 +19,9 @@ end
 
 private
 def convert(params)
+  source = params[:source]
+  raise "writing too much" if source.size > 20000
+
   filename = params[:filename]
   filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
 
@@ -28,7 +31,7 @@ def convert(params)
   pdf_path = File.join(base_dir, filename)
 
   Tempfile.open(["rab2pdf", ".rab"]) do |tempfile|
-    tempfile.puts(params[:source])
+    tempfile.puts(source)
     tempfile.flush
     Rabbit::Command::Rabbit.run("--print",
                                 "--output-filename", pdf_path,
