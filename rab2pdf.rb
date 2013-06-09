@@ -22,7 +22,8 @@ def convert(params)
   filename = params[:filename]
   filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
 
-  base_dir = "public/pdf"
+  today = Time.now.strftime("%Y%m%d")
+  base_dir = "public/pdf/#{today}"
   FileUtils.mkdir_p(base_dir)
   pdf_path = File.join(base_dir, filename)
 
@@ -34,5 +35,5 @@ def convert(params)
                                 tempfile.path)
   end
 
-  File.join("http://myokoym.net/rab2pdf", "pdf", filename)
+  File.join("http://myokoym.net/rab2pdf", "pdf", today, filename)
 end
