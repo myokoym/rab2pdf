@@ -31,5 +31,5 @@ def convert(params)
                                 tempfile.path)
   end
 
-  File.join("http://myokoym.net/rab2pdf", pdf_path)
+  File.join("http://myokoym.net/rab2pdf", "pdf", params[:filename])
 end
