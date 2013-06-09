@@ -21,11 +21,13 @@
 
     %form{:action => url("/convert", false, true), :method => "post"}
       %p
-        file-name
-        %input{:type => "text", :name => "filename", :size => 50, :value => @filename}
-      %p
-        source
+        source (rab|rd)
+        %br
         %textarea{:name => "source", :cols => 50, :rows => 5}= @params[:source]
+      %p
+        output file name
+        %br
+        %input{:type => "text", :name => "filename", :size => 30, :value => @filename}
       %p
         %input{:type => "submit"}
     %p
