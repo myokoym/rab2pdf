@@ -19,9 +19,12 @@ end
 
 private
 def convert(params)
+  filename = params[:filename]
+  filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
+
   base_dir = "public/pdf"
   FileUtils.mkdir_p(base_dir)
-  pdf_path = File.join(base_dir, params[:filename])
+  pdf_path = File.join(base_dir, filename)
 
   Tempfile.open(["rab2pdf", ".rab"]) do |tempfile|
     tempfile.puts(params[:source])
@@ -31,5 +34,5 @@ def convert(params)
                                 tempfile.path)
   end
 
-  File.join("http://myokoym.net/rab2pdf", "pdf", params[:filename])
+  File.join("http://myokoym.net/rab2pdf", "pdf", filename)
 end
