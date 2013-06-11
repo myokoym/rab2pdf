@@ -62,9 +62,9 @@ def git(url)
     repo_path = File.join(tmpdir, repo_name)
     rab_name = File.open(File.join(repo_path, ".rabbit")).read.chomp
 
+    today = Time.now.strftime("%Y%m%d")
     pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
     download_url = File.join("http://myokoym.net/rab2pdf", "pdf", today, pdf_name)
-    today = Time.now.strftime("%Y%m%d")
     base_dir = File.expand_path("public/pdf/#{today}")
     FileUtils.mkdir_p(base_dir)
     pdf_path = File.join(base_dir, pdf_name)
