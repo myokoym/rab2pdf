@@ -70,9 +70,12 @@ def git(url)
     pdf_path = File.join(base_dir, pdf_name)
 
     FileUtils.cd(repo_path) do
-      system("rabbit", "--print",
-                       "--output-filename", pdf_path,
-                       rab_name)
+      #system("rabbit", "--print",
+      #                 "--output-filename", pdf_path,
+      #                 rab_name)
+      Rabbit::Command::Rabbit.run("--print",
+                                  "--output-filename", pdf_path,
+                                  rab_name)
     end
   end
 
