@@ -2,7 +2,6 @@ require "sinatra"
 require "haml"
 require "fileutils"
 require "tmpdir"
-require "uri"
 require "rabbit/command/rabbit"
 
 BASE_URL = "http://myokoym.net/rab2pdf"
@@ -50,7 +49,7 @@ def convert(params)
                                 tempfile.path)
   end
 
-  URI.join(BASE_URL, "pdf", today, filename).to_s
+  File.join(BASE_URL, "pdf", today, filename)
 end
 
 def git(url)
@@ -67,7 +66,7 @@ def git(url)
 
     today = Time.now.strftime("%Y%m%d")
     pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
-    download_url = URI.join(BASE_URL, "pdf", today, pdf_name).to_s
+    download_url = File.join(BASE_URL, "pdf", today, pdf_name)
 
     base_dir = File.expand_path("public/pdf/#{today}")
     FileUtils.mkdir_p(base_dir)
