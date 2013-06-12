@@ -13,7 +13,7 @@ class Rab2pdfTest < Test::Unit::TestCase
   end
 
   def test_index
-    get '/'
+    get "/"
     assert_true(last_response.ok?)
   end
 end
