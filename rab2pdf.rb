@@ -2,6 +2,7 @@ require "sinatra"
 require "haml"
 require "fileutils"
 require "tmpdir"
+require "uri"
 require "rabbit/command/rabbit"
 
 get "/" do
@@ -47,7 +48,7 @@ def convert(params)
                                 tempfile.path)
   end
 
-  File.join("http://myokoym.net/rab2pdf", "pdf", today, filename)
+  URI.join("http://myokoym.net/rab2pdf", "pdf", today, filename).to_s
 end
 
 def git(url)
@@ -64,7 +65,7 @@ def git(url)
 
     today = Time.now.strftime("%Y%m%d")
     pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
-    download_url = File.join("http://myokoym.net/rab2pdf", "pdf", today, pdf_name)
+    download_url = URI.join("http://myokoym.net/rab2pdf", "pdf", today, pdf_name).to_s
 
     base_dir = File.expand_path("public/pdf/#{today}")
     FileUtils.mkdir_p(base_dir)
