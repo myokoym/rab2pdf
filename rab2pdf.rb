@@ -5,6 +5,8 @@ require "tmpdir"
 require "uri"
 require "rabbit/command/rabbit"
 
+BASE_URL = "http://myokoym.net/rab2pdf"
+
 get "/" do
   haml :index
 end
@@ -48,7 +50,7 @@ def convert(params)
                                 tempfile.path)
   end
 
-  URI.join("http://myokoym.net/rab2pdf", "pdf", today, filename).to_s
+  URI.join(BASE_URL, "pdf", today, filename).to_s
 end
 
 def git(url)
@@ -65,7 +67,7 @@ def git(url)
 
     today = Time.now.strftime("%Y%m%d")
     pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
-    download_url = URI.join("http://myokoym.net/rab2pdf", "pdf", today, pdf_name).to_s
+    download_url = URI.join(BASE_URL, "pdf", today, pdf_name).to_s
 
     base_dir = File.expand_path("public/pdf/#{today}")
     FileUtils.mkdir_p(base_dir)
