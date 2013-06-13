@@ -45,6 +45,14 @@ GEM
       rdtool
       rsvg2
       rttool
+    rabbit-theme-clear-code (1.0.3)
+      rabbit (>= 2.0.2)
+    rabbit-theme-nyankosakana (1.0.1)
+      rabbit (>= 2.0.2)
+    rabbit-theme-rurema (1.1.2)
+      rabbit (>= 2.0.2)
+    rabbit-theme-sprk2012 (1.0.1)
+      rabbit (>= 2.0.2)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -66,4 +74,8 @@ PLATFORMS
 DEPENDENCIES
   haml
   rabbit
+  rabbit-theme-clear-code
+  rabbit-theme-nyankosakana
+  rabbit-theme-rurema
+  rabbit-theme-sprk2012
   sinatra
