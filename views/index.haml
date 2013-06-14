@@ -29,6 +29,7 @@
         output file name
         %br
         %input{:type => "text", :name => "filename", :size => 30, :value => @params[:filename]}
+        = @filename_error_message
       %p
         %input{:type => "submit"}
     %p

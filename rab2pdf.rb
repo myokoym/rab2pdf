@@ -20,6 +20,8 @@ post "/convert" do
     @download_url = convert(params[:source], params[:filename])
   rescue SourceSizeError => e
     @source_error_message = e
+  rescue FilenameEmptyError => e
+    @filename_error_message = e
   rescue => e
     return "Error: #{e}"
   end
@@ -38,6 +40,7 @@ end
 
 private
 def convert(source, filename)
+  raise FilenameEmptyError, "required!" if filename.empty?
   raise SourceSizeError, "error: writing too much!" if source.size > 20000
 
   filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
