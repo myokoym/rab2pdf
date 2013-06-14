@@ -6,6 +6,9 @@ require "rabbit/command/rabbit"
 
 BASE_URL = "http://myokoym.net/rab2pdf"
 
+class SourceSizeError    < StandardError; end
+class FilenameEmptyError < StandardError; end
+
 get "/" do
   @params ||= {}
   @params[:source] = slide_source
@@ -15,11 +18,14 @@ end
 post "/convert" do
   begin
     @download_url = convert(params[:source], params[:filename])
-    @params = params
-    haml :index
+  rescue SourceSizeError => e
+    @source_error_message = e
   rescue => e
-    "Error: #{e}"
+    return "Error: #{e}"
   end
+
+  @params = params
+  haml :index
 end
 
 get "/git" do
@@ -32,7 +38,7 @@ end
 
 private
 def convert(source, filename)
-  raise "writing too much" if source.size > 20000
+  raise SourceSizeError, "error: writing too much!" if source.size > 20000
 
   filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
 
