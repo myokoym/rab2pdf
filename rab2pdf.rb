@@ -7,6 +7,8 @@ require "rabbit/command/rabbit"
 BASE_URL = "http://myokoym.net/rab2pdf"
 
 get "/" do
+  @params ||= {}
+  @params[:source] = slide_source
   haml :index
 end
 
@@ -80,4 +82,37 @@ def git(url)
   end
 
   download_url
+end
+
+def slide_source
+  <<-EOS
+= TITLE
+
+# : subtitle
+#    SUBTITLE
+: author
+   Your Name
+# : institution
+#    INSTITUTION
+# : content-source
+#    EVENT NAME
+: date
+   #{Time.now.strftime("%Y/%m/%d")}
+# : allotted-time
+#    5m
+: theme
+   clear-blue
+
+= FIRST SLIDE
+
+  * ITEM 1
+  * ITEM 2
+  * ITEM 3
+
+= SECOND SLIDE
+
+  # image
+  # src = https://raw.github.com/rabbit-shocker/rabbit/master/sample/lavie.png
+  # relative_height = 100
+  EOS
 end
