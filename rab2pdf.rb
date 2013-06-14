@@ -14,7 +14,7 @@ end
 
 post "/convert" do
   begin
-    @download_url = convert(params)
+    @download_url = convert(params[:source], params[:filename])
     @params = params
     haml :index
   rescue => e
@@ -31,11 +31,9 @@ get "/git" do
 end
 
 private
-def convert(params)
-  source = params[:source]
+def convert(source, filename)
   raise "writing too much" if source.size > 20000
 
-  filename = params[:filename]
   filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
 
   today = Time.now.strftime("%Y%m%d")
