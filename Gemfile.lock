@@ -33,7 +33,7 @@ GEM
       glib2 (= 2.0.2)
     pkg-config (1.1.4)
     poppler (2.0.2)
-    rabbit (2.0.8)
+    rabbit (2.0.9)
       coderay (>= 1.0.0)
       faraday
       gettext
