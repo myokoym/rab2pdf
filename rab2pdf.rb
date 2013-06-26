@@ -108,7 +108,7 @@ def slide_source
 # : allotted-time
 #    5m
 : theme
-   clear-blue
+   lightning-clear-blue
 
 = FIRST SLIDE
 
