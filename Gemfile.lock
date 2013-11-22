@@ -47,6 +47,8 @@ GEM
       rttool
     rabbit-theme-clear-code (1.0.3)
       rabbit (>= 2.0.2)
+    rabbit-theme-groonga (1.0.0)
+      rabbit (>= 2.0.2)
     rabbit-theme-nyankosakana (1.0.2)
       rabbit (>= 2.0.2)
     rabbit-theme-rurema (1.1.2)
@@ -75,6 +77,7 @@ DEPENDENCIES
   haml
   rabbit
   rabbit-theme-clear-code
+  rabbit-theme-groonga
   rabbit-theme-nyankosakana
   rabbit-theme-rurema
   rabbit-theme-sprk2012
