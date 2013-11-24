@@ -15,7 +15,7 @@ get "/" do
   haml :index
 end
 
-post "/convert" do
+post "/" do
   begin
     @download_url = convert(params[:source], params[:filename])
   rescue SourceSizeError => e
