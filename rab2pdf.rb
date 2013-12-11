@@ -4,8 +4,6 @@ require "fileutils"
 require "tmpdir"
 require "rabbit/command/rabbit"
 
-BASE_URL = "http://myokoym.net/rab2pdf"
-
 class SourceSizeError    < StandardError; end
 class FilenameEmptyError < StandardError; end
 
@@ -73,7 +71,7 @@ def convert(source, filename)
                                 tempfile.path)
   end
 
-  File.join(BASE_URL, "pdf", today, filename)
+  File.join(request.url, "pdf", today, filename)
 end
 
 def git(url)
