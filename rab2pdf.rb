@@ -17,7 +17,11 @@ end
 
 post "/" do
   begin
-    @download_url = convert(params[:source], params[:filename])
+    if params[:file]
+      @download_url = convert(read_file, get_filename)
+    else
+      @download_url = convert(params[:source], params[:filename])
+    end
   rescue SourceSizeError => e
     @source_error_message = e
   rescue FilenameEmptyError => e
@@ -39,6 +43,17 @@ get "/git" do
 end
 
 private
+
+def get_filename
+  param = params[:file][:filename]
+  ext = File.extname(param)
+  File.basename(param, ext)
+end
+
+def read_file
+  params[:file][:tempfile].read
+end
+
 def convert(source, filename)
   raise FilenameEmptyError, "required!" if filename.empty?
   raise SourceSizeError, "error: writing too much!" if source.size > 20000

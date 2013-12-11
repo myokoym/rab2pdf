@@ -19,12 +19,15 @@
     ,
     %a{:href => "http://rabbit-shocker.org/"} Rabbit
 
-    %form{:action => url("/", false, true), :method => "post"}
+    %form{:action => url("/", false, true), :method => "post", :enctype => "multipart/form-data"}
       %p
         source (rab|rd)
         %br
         %textarea{:name => "source", :cols => 50, :rows => 10}= @params[:source]
         = @source_error_message
+      %p
+        input file name
+        %input{:type => "file", :name => "file", :size => 30, :value => ""}
       %p
         output file name
         %br
