@@ -15,11 +15,7 @@ end
 
 post "/" do
   begin
-    if params[:file]
-      @download_url = convert(read_file, get_filename)
-    else
-      @download_url = convert(params[:source], params[:filename])
-    end
+    @download_url = convert(source, filename)
   rescue SourceSizeError => e
     @source_error_message = e
   rescue FilenameEmptyError => e
@@ -41,14 +37,22 @@ get "/git" do
 end
 
 helpers do
-  def get_filename
+  def source
+    if params[:file]
+      params[:file][:tempfile].read
+    else
+      params[:source]
+    end
+  end
+
+  def filename
+    if params[:file]
     param = params[:file][:filename]
     ext = File.extname(param)
     File.basename(param, ext)
-  end
-
-  def read_file
-    params[:file][:tempfile].read
+    else
+      params[:filename]
+    end
   end
 
   def convert(source, filename)
