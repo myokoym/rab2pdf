@@ -47,9 +47,9 @@ helpers do
 
   def filename
     if params[:file]
-    param = params[:file][:filename]
-    ext = File.extname(param)
-    File.basename(param, ext)
+      param = params[:file][:filename]
+      ext = File.extname(param)
+      File.basename(param, ext)
     else
       params[:filename]
     end
