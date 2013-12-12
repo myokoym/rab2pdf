@@ -7,6 +7,8 @@
     %meta{'http-equiv' => 'content-script-type', :content => 'text/javascript'}
     %title rab2pdf - Rabbitable PDF maker
     %link{:rel => 'stylesheet', :type => 'text/css', :href => 'style.css'}
+    %script{:type => 'text/javascript', :src => 'javascript/jquery.js'}
+    %script{:type => 'text/javascript', :src => 'javascript/rab2pdf.js'}
   %body
     %h1 rab2pdf
 
@@ -23,11 +25,11 @@
       %p
         source (rab|rd)
         %br
-        %textarea{:name => "source", :cols => 50, :rows => 10}= @params[:source]
+        %textarea{:id => "source", :name => "source", :cols => 50, :rows => 10}= @params[:source]
         = @source_error_message
       %p
         input file name
-        %input{:type => "file", :name => "file", :size => 30, :value => ""}
+        %input{:type => "file", :id => "file", :name => "file", :size => 30, :value => ""}
       %p
         output file name
         %br
