@@ -41,70 +41,70 @@ get "/git" do
 end
 
 helpers do
-def get_filename
-  param = params[:file][:filename]
-  ext = File.extname(param)
-  File.basename(param, ext)
-end
-
-def read_file
-  params[:file][:tempfile].read
-end
-
-def convert(source, filename)
-  raise FilenameEmptyError, "required!" if filename.empty?
-  raise SourceSizeError, "error: writing too much!" if source.size > 20000
-
-  filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
-
-  today = Time.now.strftime("%Y%m%d")
-  base_dir = "public/pdf/#{today}"
-  FileUtils.mkdir_p(base_dir)
-  pdf_path = File.join(base_dir, filename)
-
-  Tempfile.open(["rab2pdf", ".rab"]) do |tempfile|
-    tempfile.puts(source)
-    tempfile.flush
-    Rabbit::Command::Rabbit.run("--print",
-                                "--output-filename", pdf_path,
-                                tempfile.path)
+  def get_filename
+    param = params[:file][:filename]
+    ext = File.extname(param)
+    File.basename(param, ext)
   end
 
-  File.join(request.url, "pdf", today, filename)
-end
+  def read_file
+    params[:file][:tempfile].read
+  end
 
-def git(url)
-  download_url = nil
+  def convert(source, filename)
+    raise FilenameEmptyError, "required!" if filename.empty?
+    raise SourceSizeError, "error: writing too much!" if source.size > 20000
 
-  Dir.mktmpdir do |tmpdir|
-    FileUtils.cd(tmpdir) do
-      system("git", "clone", "--quiet", url)
-    end
-
-    repo_name = File.basename(url, ".git")
-    repo_path = File.join(tmpdir, repo_name)
-    rab_name = File.open(File.join(repo_path, ".rabbit")).read.chomp
+    filename << ".pdf" unless /\.(?:ps|pdf|svg)\z/i =~ filename
 
     today = Time.now.strftime("%Y%m%d")
-    pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
-    download_url = File.join(BASE_URL, "pdf", today, pdf_name)
-
-    base_dir = File.expand_path("public/pdf/#{today}")
+    base_dir = "public/pdf/#{today}"
     FileUtils.mkdir_p(base_dir)
-    pdf_path = File.join(base_dir, pdf_name)
+    pdf_path = File.join(base_dir, filename)
 
-    FileUtils.cd(repo_path) do
+    Tempfile.open(["rab2pdf", ".rab"]) do |tempfile|
+      tempfile.puts(source)
+      tempfile.flush
       Rabbit::Command::Rabbit.run("--print",
                                   "--output-filename", pdf_path,
-                                  rab_name)
+                                  tempfile.path)
     end
+
+    File.join(request.url, "pdf", today, filename)
   end
 
-  download_url
-end
+  def git(url)
+    download_url = nil
 
-def slide_source
-  <<-EOS
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.cd(tmpdir) do
+        system("git", "clone", "--quiet", url)
+      end
+
+      repo_name = File.basename(url, ".git")
+      repo_path = File.join(tmpdir, repo_name)
+      rab_name = File.open(File.join(repo_path, ".rabbit")).read.chomp
+
+      today = Time.now.strftime("%Y%m%d")
+      pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
+      download_url = File.join(BASE_URL, "pdf", today, pdf_name)
+
+      base_dir = File.expand_path("public/pdf/#{today}")
+      FileUtils.mkdir_p(base_dir)
+      pdf_path = File.join(base_dir, pdf_name)
+
+      FileUtils.cd(repo_path) do
+        Rabbit::Command::Rabbit.run("--print",
+                                    "--output-filename", pdf_path,
+                                    rab_name)
+      end
+    end
+
+    download_url
+  end
+
+  def slide_source
+    <<-EOS
 = TITLE
 
 # : subtitle
@@ -133,6 +133,6 @@ def slide_source
   # image
   # src = https://raw.github.com/rabbit-shocker/rabbit/master/sample/lavie.png
   # relative_height = 100
-  EOS
-end
+    EOS
+  end
 end
