@@ -2,6 +2,7 @@ require "sinatra"
 require "haml"
 require "fileutils"
 require "tmpdir"
+require "uri"
 require "rabbit/command/rabbit"
 
 class SourceSizeError    < StandardError; end
@@ -108,7 +109,13 @@ helpers do
   end
 
   def base_url
-    request.url
+    parts_of_url = {
+      :scheme => request.scheme,
+      :host   => request.host,
+      :port   => request.port,
+      :path   => request.script_name,
+    }
+    URI::Generic.build(parts_of_url).to_s
   end
 
   def slide_source
