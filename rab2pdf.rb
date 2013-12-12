@@ -70,7 +70,7 @@ helpers do
                                   tempfile.path)
     end
 
-    File.join(request.url, "pdf", today, filename)
+    File.join(base_url, "pdf", today, filename)
   end
 
   def git(url)
@@ -87,7 +87,7 @@ helpers do
 
       today = Time.now.strftime("%Y%m%d")
       pdf_name = rab_name.gsub(/\.\w+\z/, ".pdf")
-      download_url = File.join(BASE_URL, "pdf", today, pdf_name)
+      download_url = File.join(base_url, "pdf", today, pdf_name)
 
       base_dir = File.expand_path("public/pdf/#{today}")
       FileUtils.mkdir_p(base_dir)
@@ -101,6 +101,10 @@ helpers do
     end
 
     download_url
+  end
+
+  def base_url
+    request.url
   end
 
   def slide_source
