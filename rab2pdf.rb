@@ -40,8 +40,7 @@ get "/git" do
   end
 end
 
-private
-
+helpers do
 def get_filename
   param = params[:file][:filename]
   ext = File.extname(param)
@@ -135,4 +134,5 @@ def slide_source
   # src = https://raw.github.com/rabbit-shocker/rabbit/master/sample/lavie.png
   # relative_height = 100
   EOS
+end
 end
